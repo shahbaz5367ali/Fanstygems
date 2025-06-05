@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iframe Grid with Zoom Toggle</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+      background: #f0f0f0;
+    }
+
+    .iframe-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      width: 100vw;
+      height: 100vh;
+      gap: 2px;
+      padding: 4px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .iframe-box {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .iframe-box.zoomed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 999;
+      border-radius: 0;
+    }
+
+    iframe {
+      width: 200%;
+      height: 200%;
+      transform: scale(0.5);
+      transform-origin: top left;
+      border: none;
+    }
+
+    .iframe-box.zoomed iframe {
+      width: 100%;
+      height: 100%;
+      transform: none;
+    }
+
+    .reload-btn, .zoom-btn {
+      position: absolute;
+      top: 2px;
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 50%;
+      padding: 2px 4px;
+      font-size: 10px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .reload-btn {
+      right: 2px;
+    }
+
+    .zoom-btn {
+      left: 2px;
+    }
+
+    .reload-btn:hover, .zoom-btn:hover {
+      background: rgba(200, 200, 200, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="iframe-container" id="iframeContainer"></div>
+
+  <script>
+    const websites = [
+      "https://fantasygems.xyz/",
+      "https://fantasygems.bet/",
+      "https://fantasygems.top/",
+      "https://fantasygems.run/",
+      "https://fantasygems.bio/",
+      "https://fantasygems.biz/",
+      "https://fantasygems.club/",
+      "https://fantasygems.pro/",
+      "https://fantasygems.bio/#/",
+      "https://fantasygems1.com/",
+      "https://fantasygems2.com/#/",
+      "https://fantasygems3.com/#/",
+      "https://fantasygems4.com/#/",
+      "https://fantasygems5.com/#/",
+      "https://fantasygems11.com/#/",
+      "https://fantasygems7.com/#/",
+      "https://fantasygems8.com/#/",
+      "https://fantasygems9.com/#/",
+      "https://fantasygems10.com/#/",
+      "https://fantasygems12.com/#/"
+    ];
+
+    const container = document.getElementById("iframeContainer");
+
+    websites.forEach((url, index) => {
+      const box = document.createElement("div");
+      box.className = "iframe-box";
+
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.id = `iframe-${index}`;
+
+      // Reload button
+      const reloadBtn = document.createElement("button");
+      reloadBtn.className = "reload-btn";
+      reloadBtn.title = "Reload";
+      reloadBtn.innerHTML = "🔄";
+      reloadBtn.onclick = () => {
+        iframe.src = url;
+      };
+
+      // Zoom toggle button
+      const zoomBtn = document.createElement("button");
+      zoomBtn.className = "zoom-btn";
+      zoomBtn.title = "Zoom";
+      zoomBtn.innerHTML = "🔍";
+      zoomBtn.onclick = () => {
+        box.classList.toggle("zoomed");
+      };
+
+      box.appendChild(iframe);
+      box.appendChild(reloadBtn);
+      box.appendChild(zoomBtn);
+      container.appendChild(box);
+    });
+  </script>
+</body>
+</html>
